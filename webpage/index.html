@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <title>Weather APP</title>
+</head>
+<body>
+    <div id="background"></div>
+<div id="box">
+    <div id="container2">
+        <div id="day"><b>DAY 2</b></div>
+        <br><br><br>
+        <div id="temp2"><b>--°C</b></div>
+        <br>
+        <br>
+        <p id="description2"><b>--</b></p>
+        <p><b>WEATHER</b></p>
+        <br>
+        <div id="humidtext2"><b>--%</b></div>
+        <p><b>HUMIDITY</b></p>
+        <br>
+        <p id="windspeed2"><b>--</b></p>
+        <p><b>WIND SPEED</b></p>
+    </div>
+
+    <div id="container3">
+        <div id="day"><b>DAY 3</b></div>
+        <br><br><br>
+        <div id="temp3"><b>--°C</b></div>
+        <br>
+        <br>
+        <p id="description3"><b>--</b></p>
+        <p><b>WEATHER</b></p>
+        <br>
+        <div id="humidtext3"><b>--%</b></div>
+        <p><b>HUMIDITY</b></p>
+        <br>
+        <p id="windspeed3"><b>--Km/H</b></p>
+        <p><b>WIND SPEED</b></p>
+    </div>
+
+    <div id="container4">
+        <div id="day"><b>DAY 4</b></div>
+        <br><br><br>
+        <div id="temp4"><b>--°C</b></div>
+        <br>
+        <br>
+        <p id="description4"><b>--</b></p>
+        <p><b>WEATHER</b></p>
+        <br>
+        <div id="humidtext4"><b>--%</b></div>
+        <p><b>HUMIDITY</b></p>
+        <br>
+        <p id="windspeed4"><b>--Km/H</b></p>
+        <p><b>WIND SPEED</b></p>
+    </div>
+
+    <div id="container5">
+        <div id="day"><b>DAY 5</b></div>
+        <br><br><br>
+        <div id="temp5"><b>--°C</b></div>
+        <br>
+        <br>
+        <p id="description5"><b>--</b></p>
+        <p><b>WEATHER</b></p>
+        <br>
+        <div id="humidtext5"><b>--%</b></div>
+        <p><b>HUMIDITY</b></p>
+        <br>
+        <p id="windspeed5"><b>--Km/H</b></p>
+        <p><b>WIND SPEED</b></p>
+    </div>
+
+
+<div id="container">
+    <div class="search">
+       <input type="text" placeholder="Enter Your Location">
+        <button id="searchbutton">
+          <img src="search.png">
+        </button>
+    </div>
+    <div class="error">Invalid City Name</div>
+<br>
+<div id="information">
+    <img src="sun.png" class="icon">
+    <div id="weatherbox">
+        <p id="city"><b>CITY</b></p>
+        <p id="temp"><b>--°C</b></p>
+        <br>
+        <p id="description"><b>--</b></p>
+        <p><b>WEATHER</b></p>
+        <br>
+        <div id="humidity"><b>--%</b></div>
+        <p><b>HUMIDITY</b></p>
+
+        <br>
+        <p id="windspeed"><b>--Km/H</b></p>
+        <p><b>WIND SPEED</b></p>
+
+    </div>
+
+</div>
+
+</div>
+</div>
+
+<script>
+    const searchinput = document.querySelector('.search input');
+    const searchbutton = document.querySelector('.search button');
+    const icon = document.querySelector('.icon');
+
+   async function getweather(city){
+    var res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=6ca80d314ee2bab449dad22e15663775&units=metric`);
+    if(res.status == 404){
+        document.querySelector('.error').style.display ="block";
+    }else {
+        document.querySelector('.error').style.display ="none";
+    }
+    var data = await res.json();
+    console.log(data);
+    document.getElementById('temp').innerHTML=data.list[0].main.temp+"°C";
+    document.getElementById('temp2').innerHTML=data.list[1].main.temp+"°C";
+    document.getElementById('temp3').innerHTML=data.list[2].main.temp+"°C";
+    document.getElementById('temp4').innerHTML=data.list[3].main.temp+"°C";
+    document.getElementById('temp5').innerHTML=data.list[4].main.temp+"°C";
+
+    document.getElementById('description').innerHTML=data.list[0].weather[0].main;
+    document.getElementById('description2').innerHTML=data.list[1].weather[0].main;
+    document.getElementById('description3').innerHTML=data.list[2].weather[0].main;
+    document.getElementById('description4').innerHTML=data.list[3].weather[0].main;
+    document.getElementById('description5').innerHTML=data.list[4].weather[0].main;
+
+    document.getElementById('humidity').innerHTML=data.list[0].main.humidity+"%";
+    document.getElementById('humidtext2').innerHTML=data.list[1].main.humidity+"%";
+    document.getElementById('humidtext3').innerHTML=data.list[2].main.humidity+"%";
+    document.getElementById('humidtext4').innerHTML=data.list[3].main.humidity+"%";
+    document.getElementById('humidtext5').innerHTML=data.list[4].main.humidity+"%";
+
+    document.getElementById('windspeed').innerHTML=data.list[0].wind.speed+ "Km/H";
+    document.getElementById('windspeed2').innerHTML=data.list[1].wind.speed+ "Km/H";
+    document.getElementById('windspeed3').innerHTML=data.list[2].wind.speed+ "Km/H";
+    document.getElementById('windspeed4').innerHTML=data.list[3].wind.speed+ "Km/H";
+    document.getElementById('windspeed5').innerHTML=data.list[4].wind.speed+ "Km/H";
+
+    document.getElementById('city').innerHTML=data.city.name;
+    
+    
+
+    if(data.list[0].weather[0].main == "Clouds"){
+        icon.src ="cloudy.png";
+    }
+    else if(data.list[0].weather[0].main == "Clear"){
+        icon.src ="sun.png";
+    }
+    else if(data.list[0].weather[0].main == "Rain"){
+        icon.src ="rain.png";
+    }
+    else if(data.list[0].weather[0].main == "Snow"){
+        icon.src ="snow.png";
+    }
+
+
+
+    }
+    searchbutton.addEventListener('click',()=>{
+        getweather(searchinput.value);
+    })
+ 
+
+    
+</script>
+
+
+
+
+</body>
+</html>
